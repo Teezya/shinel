@@ -69,11 +69,20 @@ let view = { x: 0, y: 0, zoom: 1 };
 let savedView = null;
 const pointers = new Map();
 let gesture = null;
+let viewFrame = 0;
 
 function applyView() {
   mapStage.style.setProperty('--pan-x', `${view.x}px`);
   mapStage.style.setProperty('--pan-y', `${view.y}px`);
   mapStage.style.setProperty('--map-zoom', view.zoom.toFixed(3));
+}
+
+function scheduleView() {
+  if (viewFrame) return;
+  viewFrame = requestAnimationFrame(() => {
+    viewFrame = 0;
+    applyView();
+  });
 }
 
 function clamp(value, min, max) {
@@ -87,6 +96,7 @@ function distanceBetween(first, second) {
 function beginMapGesture(event) {
   if (!taskCard.hidden || event.target.closest('.marker') || event.target.closest('.map-title, .map-key, .compass, .map-caption, .finish-note')) return;
   pointers.set(event.pointerId, event);
+  mapStage.classList.add('dragging');
   mapStage.setPointerCapture(event.pointerId);
   if (pointers.size === 1) {
     gesture = { startX: event.clientX, startY: event.clientY, startViewX: view.x, startViewY: view.y, moved: false };
@@ -116,12 +126,16 @@ function moveMapGesture(event) {
   const limit = Math.max(90, Math.min(window.innerWidth, window.innerHeight) * (view.zoom - 1) * 1.4 + 110);
   view.x = clamp(view.x, -limit, limit);
   view.y = clamp(view.y, -limit, limit);
-  applyView();
+  scheduleView();
 }
 
 function endMapGesture(event) {
   pointers.delete(event.pointerId);
-  if (pointers.size === 0) gesture = null;
+  if (pointers.size === 0) {
+    gesture = null;
+    mapStage.classList.remove('dragging');
+    applyView();
+  }
 }
 
 function taskKey(pointIndex, taskIndex) {
