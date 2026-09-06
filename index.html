@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#d4c39a">
+  <title>Шинель — литературная карта Петербурга</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="map-app" aria-label="Интерактивная литературная карта Петербурга по повести Шинель">
+    <div class="map-stage" id="mapStage">
+      <svg class="city-map" viewBox="0 0 1600 980" role="img" aria-label="Старинная карта Санкт-Петербурга с маршрутом Акакия Акакиевича" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <filter id="paperNoise"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .1"/></feComponentTransfer></filter>
+          <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#2c2117" flood-opacity=".24"/></filter>
+          <pattern id="blocks" width="38" height="32" patternUnits="userSpaceOnUse"><path d="M2 2h30v22H2z" fill="none" stroke="#76644a" stroke-width="1" opacity=".32"/><path d="M9 2v22M21 2v22" stroke="#76644a" stroke-width=".45" opacity=".22"/></pattern>
+          <linearGradient id="water" x1="0" x2="1"><stop stop-color="#94a7a0" stop-opacity=".5"/><stop offset=".45" stop-color="#b7c3b4" stop-opacity=".72"/><stop offset="1" stop-color="#78918d" stop-opacity=".52"/></linearGradient>
+        </defs>
+        <rect width="1600" height="980" fill="#d8c79e"/>
+        <rect width="1600" height="980" fill="#7c6040" filter="url(#paperNoise)" opacity=".62"/>
+        <path class="water-body" d="M0 80 C260 130 355 62 532 112 C720 165 794 78 980 126 C1180 180 1385 120 1600 172 L1600 0H0Z"/>
+        <path class="water-body" d="M1210 980 C1160 810 1245 721 1173 608 C1120 523 1178 448 1110 332 C1060 250 1100 150 1190 114 C1300 70 1390 160 1418 284 C1450 430 1400 534 1494 638 C1532 680 1588 686 1600 688V980Z"/>
+        <path class="water-line" d="M0 106 C260 155 360 91 535 138 C715 188 800 109 982 151 C1190 202 1390 144 1600 196"/>
+        <path class="water-line" d="M1260 980 C1210 824 1295 734 1220 608 C1155 500 1212 434 1153 332 C1100 238 1140 166 1201 132"/>
+        <path class="canal" d="M474 0 C520 164 604 250 582 382 C560 526 629 627 690 733 C731 808 732 898 696 980"/>
+        <path class="canal" d="M270 980 C325 859 397 785 438 686 C480 584 466 486 404 407 C349 338 360 224 420 119 C446 74 458 35 454 0"/>
+        <path class="canal" d="M760 0 C742 162 780 268 864 342 C958 424 959 520 889 608 C814 702 808 814 860 980"/>
+        <path class="canal-line" d="M474 0 C520 164 604 250 582 382 C560 526 629 627 690 733 C731 808 732 898 696 980 M270 980 C325 859 397 785 438 686 C480 584 466 486 404 407 C349 338 360 224 420 119 C446 74 458 35 454 0 M760 0 C742 162 780 268 864 342 C958 424 959 520 889 608 C814 702 808 814 860 980"/>
+        <path d="M0 0H1600V980H0Z" fill="url(#blocks)" opacity=".56"/>
+        <g class="street-grid">
+          <path d="M120 300L1420 320M86 432L1510 454M50 574L1460 590M120 716L1530 748M205 850L1380 868"/>
+          <path d="M156 148L198 920M302 80L350 950M608 88L634 920M820 100L778 900M1012 110L970 930M1300 155L1280 920M1440 190L1432 930"/>
+        </g>
+        <g class="minor-streets">
+          <path d="M35 363L1455 380M140 502L1440 530M88 648L1400 672M290 782L1430 808M238 230L1420 260"/>
+          <path d="M242 46L275 940M398 70L420 950M540 78L563 932M704 82L714 930M896 78L866 930M1110 112L1084 936M1202 140L1194 930M1372 188L1364 938"/>
+        </g>
+        <g class="place-labels">
+          <text x="95" y="112">ПЕТЕРБУРГЪ</text><text x="103" y="139" class="small-caps">Планъ столицы Российской империи</text>
+          <text x="88" y="344">Васильевский островъ</text><text x="1338" y="420">Петроградская сторона</text>
+          <text x="1020" y="900">Адмиралтейская часть</text><text x="98" y="900">Коломна</text>
+          <text x="570" y="250" transform="rotate(86 570 250)">КАНАЛЪ ГРИБОЕДОВА</text><text x="820" y="688" transform="rotate(76 820 688)">ФОНТАНКА</text>
+          <text x="1030" y="278" transform="rotate(88 1030 278)">НЕВА</text><text x="1350" y="650" transform="rotate(75 1350 650)">МАЛАЯ НЕВКА</text>
+          <text x="758" y="205">Невскiй проспектъ</text><text x="108" y="525">Большой проспектъ</text><text x="1040" y="557">Вознесенскiй проспектъ</text>
+          <text x="625" y="466">Сенная площадь</text><text x="930" y="493">Адмиралтейство</text><text x="1172" y="746">Исаакiевская площадь</text>
+          <text x="278" y="615">Гостиный дворъ</text><text x="1205" y="245">Летнiй садъ</text>
+        </g>
+        <g class="landmark"><path d="M904 440h62v44h-62zM912 434l23-28 23 28M922 484v-30M948 484v-30"/><text x="890" y="502">АДМИРАЛТЕЙСТВО</text></g>
+        <g class="route-line" id="routeLine" aria-hidden="true"><path d="M335 256 L445 508 L585 619 L748 378 L922 284 L1092 398 L1284 655 L1148 770"/></g>
+        <rect x="18" y="18" width="1564" height="944" class="map-border"/>
+      </svg>
+      <div id="markerLayer" aria-label="Точки литературного маршрута"></div>
+      <header class="map-title"><p class="eyebrow">Литературная карта · 1842</p><h1>Шинель</h1><p class="subtitle">Петербург глазами Акакия Акакиевича Башмачкина</p></header>
+      <aside class="map-key" aria-label="Легенда карты"><div class="key-title">Путь героя</div><div class="progress-track"><span id="progressBar"></span></div><div class="key-meta"><span id="progressText">0 из 8 мест</span><span class="north">СВ <b>↑</b></span></div><div class="key-hint">Нажмите на знак,<br>чтобы открыть страницу повести</div></aside>
+      <div class="compass" aria-hidden="true"><span>N</span><i></i><span>S</span></div>
+      <div class="map-caption"><span>Издание маршрута</span><strong>Петербургская губерния</strong><small>Рисовано по мотивам старинных планов</small></div>
+      <div class="finish-note" id="finishNote" aria-live="polite"><span>✦</span><b>Маршрут завершён</b><small>Весь путь Акакия Акакиевича нанесён на карту</small></div>
+    </div>
+    <div class="overlay" id="overlay" hidden></div>
+    <section class="task-card" id="taskCard" hidden aria-modal="true" role="dialog" aria-labelledby="taskTitle">
+      <button class="close-card" id="closeCard" aria-label="Закрыть задание">×</button>
+      <div class="task-number" id="taskNumber"></div><div class="card-kicker" id="cardKicker"></div><h2 id="taskTitle"></h2><p class="card-location" id="cardLocation"></p>
+      <div id="taskContent"></div>
+      <div class="result" id="result" hidden></div>
+      <button class="check-button" id="checkButton" hidden>Проверить</button>
+      <button class="continue-button" id="continueButton" hidden>Продолжить маршрут <span>→</span></button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
