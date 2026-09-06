@@ -184,6 +184,7 @@ function openTask(index) {
   cardLocation.textContent = point.subtitle;
   result.hidden = true;
   checkButton.hidden = true;
+  checkButton.disabled = false;
   continueButton.hidden = true;
   taskContent.innerHTML = taskMarkup(task);
   overlay.hidden = false;
@@ -193,13 +194,13 @@ function openTask(index) {
 }
 
 function taskMarkup(task) {
-  if (task.type === 'tailor') return `<p class="task-content-label">Перетащите или нажмите детали</p><p class="tailor-instruction">Соберите элементы будущей шинели для Акакия Акакиевича.</p><div class="coat-parts"><button class="part" data-part="Сукно"><span>▥</span>Сукно</button><button class="part" data-part="Воротник"><span>⌒</span>Воротник</button><button class="part" data-part="Подкладка"><span>▤</span>Подкладка</button><button class="part" data-part="Пуговицы"><span>⠿</span>Пуговицы</button><button class="part" data-part="Рукава"><span>∩</span>Рукава</button></div><p class="coat-status" id="coatStatus">Выбрано: 0 из 5</p>`;
-  if (task.type === 'choice' || task.type === 'identity') return `<p class="task-content-label">${task.type === 'identity' ? task.prompt : 'Выберите один ответ'}</p><p class="question">${task.question}</p><div class="answers">${task.answers.map((answer, index) => `<button class="answer" data-answer="${index}" data-index="${index + 1}">${answer}</button>`).join('')}</div>`;
-  if (task.type === 'multi') return `<p class="task-content-label">Можно выбрать несколько вариантов</p><p class="question">${task.question}</p><div class="multi-options">${task.options.map((option, index) => `<label class="multi-option"><input type="checkbox" value="${index}">${option}</label>`).join('')}</div>`;
-  if (task.type === 'truth') return `<p class="task-content-label">Отметьте правду и ложь</p><p class="question">${task.question}</p><div class="truth-list">${task.statements.map((statement, index) => `<label class="truth-item"><input type="checkbox" data-truth="${index}"><span>${statement.text}</span></label>`).join('')}</div>`;
-  if (task.type === 'matching') return `<p class="task-content-label">Соедините пары</p><p class="question">${task.question}</p><p class="match-help">Выберите роль для каждого героя.</p><div class="matching-grid">${task.pairs.map((pair, index) => `<div class="matching-row"><strong>${pair.left}</strong><select data-match="${index}"><option value="">Выберите...</option>${task.pairs.map((choice, choiceIndex) => `<option value="${choiceIndex}">${choice.right}</option>`).join('')}</select></div>`).join('')}</div>`;
-  if (task.type === 'order') { const displayItems = [...task.items].reverse(); return `<p class="task-content-label">Переставляйте карточки кнопками</p><p class="question">${task.question}</p><div class="order-list">${displayItems.map((item, index) => `<div class="order-item" data-order-index="${index}"><span>${item}</span><span class="order-controls"><button type="button" data-move="up" aria-label="Поднять">↑</button><button type="button" data-move="down" aria-label="Опустить">↓</button></span></div>`).join('')}</div>`; }
-  if (task.type === 'map') return `<p class="task-content-label">Выбор объекта на карте</p><p class="map-find">${task.question}</p><div class="map-choice-list">${task.options.map((option, index) => `<button class="map-choice" data-map-answer="${index}">${option}</button>`).join('')}</div>`;
+  if (task.type === 'tailor') return `<p class="task-content-label">Что нужно сделать</p><p class="task-instruction">Нажмите на все 5 деталей, из которых состоит шинель.</p><div class="coat-parts"><button class="part" data-part="Сукно"><span>▥</span>Сукно</button><button class="part" data-part="Воротник"><span>⌒</span>Воротник</button><button class="part" data-part="Подкладка"><span>▤</span>Подкладка</button><button class="part" data-part="Пуговицы"><span>⠿</span>Пуговицы</button><button class="part" data-part="Рукава"><span>∩</span>Рукава</button></div><p class="coat-status" id="coatStatus">Выбрано: 0 из 5</p>`;
+  if (task.type === 'choice' || task.type === 'identity') return `<p class="question-label">Вопрос</p><p class="question">${task.question}</p>${task.type === 'identity' ? `<p class="clue"><strong>Подсказка:</strong> ${task.prompt}</p>` : ''}<p class="task-content-label">Выберите один ответ</p><div class="answers">${task.answers.map((answer, index) => `<button class="answer" data-answer="${index}" data-index="${index + 1}">${answer}</button>`).join('')}</div>`;
+  if (task.type === 'multi') return `<p class="question-label">Вопрос</p><p class="question">${task.question}</p><p class="task-content-label">Выберите все подходящие варианты</p><div class="multi-options">${task.options.map((option, index) => `<label class="multi-option"><input type="checkbox" value="${index}">${option}</label>`).join('')}</div>`;
+  if (task.type === 'truth') return `<p class="question-label">Вопрос</p><p class="question">${task.question}</p><p class="task-content-label">Для каждого утверждения выберите «Правда» или «Ложь»</p><div class="truth-list">${task.statements.map((statement, index) => `<div class="truth-item"><span>${statement.text}</span><select data-truth="${index}" aria-label="Правда или ложь для утверждения ${index + 1}"><option value="">Выберите</option><option value="true">Правда</option><option value="false">Ложь</option></select></div>`).join('')}</div>`;
+  if (task.type === 'matching') return `<p class="question-label">Задание</p><p class="question">${task.question}</p><p class="task-content-label">Для каждого имени выберите подходящую роль</p><div class="matching-grid">${task.pairs.map((pair, index) => `<div class="matching-row"><strong>${pair.left}</strong><select data-match="${index}" aria-label="Роль: ${pair.left}"><option value="">Выберите роль</option>${task.pairs.map((choice, choiceIndex) => `<option value="${choiceIndex}">${choice.right}</option>`).join('')}</select></div>`).join('')}</div>`;
+  if (task.type === 'order') { const displayItems = [...task.items].reverse(); return `<p class="question-label">Задание</p><p class="question">${task.question}</p><p class="task-content-label">Используйте стрелки: ↑ — раньше, ↓ — позже</p><div class="order-list">${displayItems.map((item, index) => `<div class="order-item" data-order-index="${index}"><span>${item}</span><span class="order-controls"><button type="button" data-move="up" aria-label="Переместить событие раньше">↑</button><button type="button" data-move="down" aria-label="Переместить событие позже">↓</button></span></div>`).join('')}</div>`; }
+  if (task.type === 'map') return `<p class="question-label">Задание</p><p class="map-find">${task.question}</p><p class="task-content-label">Нажмите на один вариант</p><div class="map-choice-list">${task.options.map((option, index) => `<button class="map-choice" data-map-answer="${index}">${option}</button>`).join('')}</div>`;
   return '';
 }
 
@@ -215,12 +216,21 @@ function setupTask(task) {
   if (task.type === 'choice' || task.type === 'identity') document.querySelectorAll('.answer').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.answer').forEach(answer => answer.classList.remove('selected')); button.classList.add('selected'); checkButton.hidden = false; }));
   if (task.type === 'map') document.querySelectorAll('.map-choice').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.map-choice').forEach(choice => choice.classList.remove('selected')); button.classList.add('selected'); checkButton.hidden = false; }));
   if (task.type === 'multi' || task.type === 'truth' || task.type === 'matching' || task.type === 'order') checkButton.hidden = false;
+  if (task.type === 'multi') {
+    checkButton.disabled = true;
+    document.querySelectorAll('.multi-option input').forEach(input => input.addEventListener('change', () => { checkButton.disabled = !document.querySelector('.multi-option input:checked'); }));
+  }
+  if (task.type === 'truth' || task.type === 'matching') {
+    checkButton.disabled = true;
+    const selector = task.type === 'truth' ? '[data-truth]' : '[data-match]';
+    document.querySelectorAll(selector).forEach(input => input.addEventListener('change', () => { checkButton.disabled = [...document.querySelectorAll(selector)].some(field => !field.value); }));
+  }
   checkButton.onclick = () => {
     let correct = false;
     if (task.type === 'choice' || task.type === 'identity') { const selected = document.querySelector('.answer.selected'); correct = selected && Number(selected.dataset.answer) === task.correct; if (selected) selected.classList.add(correct ? 'correct' : 'wrong'); }
     if (task.type === 'map') { const selected = document.querySelector('.map-choice.selected'); correct = selected && Number(selected.dataset.mapAnswer) === task.correct; if (selected) selected.classList.add(correct ? 'correct' : 'wrong'); }
     if (task.type === 'multi') { const selected = [...document.querySelectorAll('.multi-option input:checked')].map(input => Number(input.value)).sort(); correct = JSON.stringify(selected) === JSON.stringify([...task.correct].sort()); }
-    if (task.type === 'truth') correct = task.statements.every((statement, index) => document.querySelector(`[data-truth="${index}"]`).checked === statement.correct);
+    if (task.type === 'truth') correct = task.statements.every((statement, index) => document.querySelector(`[data-truth="${index}"]`).value === String(statement.correct));
     if (task.type === 'matching') correct = task.pairs.every((_, index) => Number(document.querySelector(`[data-match="${index}"]`).value) === index);
     if (task.type === 'order') correct = [...document.querySelectorAll('.order-item span:first-child')].every((item, index) => item.textContent === task.items[index]);
     showResult(Boolean(correct), task.explanation);
@@ -232,6 +242,7 @@ function showResult(isCorrect, explanation) {
   result.className = `result ${isCorrect ? 'correct' : 'incorrect'}`;
   result.innerHTML = `<strong>${isCorrect ? 'ВЕРНО' : 'НЕВЕРНО'}</strong>${explanation}`;
   checkButton.hidden = true;
+  checkButton.disabled = false;
   continueButton.hidden = false;
   if (!isCorrect) { taskCard.classList.remove('shake'); requestAnimationFrame(() => taskCard.classList.add('shake')); }
 }
