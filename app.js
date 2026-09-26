@@ -77,6 +77,8 @@ const closeCard = document.querySelector('#closeCard');
 const progressBar = document.querySelector('#progressBar');
 const progressText = document.querySelector('#progressText');
 const finishNote = document.querySelector('#finishNote');
+const music = document.querySelector('#music');
+const musicToggle = document.querySelector('#musicToggle');
 let completedTasks = JSON.parse(localStorage.getItem('shiniel-tasks') || '[]');
 let activeIndex = null;
 let activeTaskIndex = 0;
@@ -85,6 +87,25 @@ let savedView = null;
 const pointers = new Map();
 let gesture = null;
 let viewFrame = 0;
+
+function updateMusicControl(isPlaying) {
+  musicToggle.textContent = isPlaying ? 'Выключить музыку' : 'Включить «Космос»';
+  musicToggle.setAttribute('aria-pressed', String(isPlaying));
+}
+
+function playMusic() {
+  music.play().then(() => updateMusicControl(true)).catch(() => updateMusicControl(false));
+}
+
+musicToggle.addEventListener('click', event => {
+  event.stopPropagation();
+  if (music.paused) playMusic();
+  else { music.pause(); updateMusicControl(false); }
+});
+music.addEventListener('play', () => updateMusicControl(true));
+music.addEventListener('pause', () => updateMusicControl(false));
+window.addEventListener('load', playMusic, { once: true });
+document.addEventListener('pointerdown', playMusic, { once: true });
 
 function applyView() {
   mapStage.style.setProperty('--pan-x', `${view.x}px`);
