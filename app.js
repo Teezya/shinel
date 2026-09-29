@@ -294,7 +294,9 @@ continueButton.addEventListener('click', () => {
   if (!completedTasks.includes(key)) completedTasks.push(key);
   localStorage.setItem('shiniel-tasks', JSON.stringify(completedTasks));
   renderMarkers();
+  const hasNextTask = activeTaskIndex < taskSets[activeIndex].length - 1;
   closeTask();
+  if (hasNextTask) setTimeout(() => openTask(activeIndex), 320);
 });
 closeCard.addEventListener('click', closeTask);
 overlay.addEventListener('click', closeTask);
